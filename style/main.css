@@ -1,0 +1,52 @@
+/* main.css */
+@import url("reset_neos.css");
+
+
+body { margin:0 auto; background: linear-gradient(to bottom , #579, #FFF) repeat-x scroll 0 0 #579}
+a{transition-duration: 0.8s}
+input[type=text], select { width:98%; margin-bottom:20px; font-size:14px; color:#900}
+select {display:block; width:auto}
+textarea{ height:50px; width:97%}
+label {color:#039; font-size:13px}
+label.chkbox { font-size:16px; padding-bottom:10px }
+code {display:block; background:#EEE url(../img/cut.png) -12px 4px no-repeat; margin:10px 0;
+      padding:10px 10px 10px 30px; color:#666; font-style:italic; border:2px dashed #CCC}
+h1 { margin:0 0 20px 0; padding:0; color:#68A; font-size: 86px; text-shadow:1px 1px 3px #000}
+.container { min-width: 400px; max-width: 960px; margin:10px auto; background:#FFF;
+            padding:30px 30px 0 30px !important; box-shadow:0 3px 6px #666}
+.subtitulo { margin:-20px 0 20px 0; color:#999; font-size:1.2em; font-family: Helvetica, cursiva}
+.subtitulo a {font-size: 0.7em; color:#DDD; text-decoration: none; padding: 3px;}
+.subtitulo a:hover {color:#F60}
+.helper { padding-bottom:60px;}
+.helper p, .helper li { font-family: helvetica, arial, sans-serif, serif}
+button { padding:5px 15px 5px 30px; margin:20px 0;
+        background:#FFF url(../img/go.png) 8px center no-repeat; color:#000;
+        cursor:pointer}
+button:hover { background-color: #f48642; box-shadow:0 -5px 30px #D50 inset; color:#FFF}
+p b, li b{ color:#000}
+.license { clear: both; margin:30px -30px 0 -30px; background: #D50; padding:20px 30px 10px 30px;color:#FCA; font-family: Helvetica, cursiva}
+.license p { font-size:0.7em; color:#FCA}
+.license a { text-decoration:none; color:#FFF; font-size:1em}
+.license a:hover { text-decoration:underline }
+
+/* Menor que 600 pixels. */
+@media screen and (max-width: 600px) {
+    body {padding:0; transition: padding 0.5s}
+    .container {margin:0 auto !important; padding:10px !important; transition: margin, padding 0.5s}
+    .license {margin:10px -10px -10px -10px; padding:10px; transition: padding 0.5s}
+}
+
+/* Menor que 960 pixels. */
+@media screen and (max-width: 800px) {
+    .container {margin:20px; transition: margin 0.6s }
+}
+
+/* Maior que 960 pixels. */
+@media screen and (min-width: 900px) {
+    .container {margin:10px auto;}
+}
+
+/* PRINT */
+@media print {
+
+}
