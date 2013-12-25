@@ -1,5 +1,5 @@
 <?php
-//namespace Neos\Megasena;
+//namespace Megasena;
 
 class Mega {
 	
@@ -7,6 +7,7 @@ class Mega {
 	private $datalink = 'http://www1.caixa.gov.br/loterias/_arquivos/loterias/D_megase.zip';
 	private $tmpdir = __DIR__;
 	private $error = false;
+        private $result = 'nada';
 
 	//Database parameters
 	private $conn = null;
@@ -44,20 +45,26 @@ class Mega {
 		$this->error = 'Parameter does not exist';
 		return false;
 	}
+        
+        //Download url
+        function download($url, $local){
+            passthru('wget "'.$url.'" -O '.$local, $err);
+            if (0 == filesize($local)) {
+                $this->error = 'Unable to download the file ('.$err.')';
+                return false;
+            }
+            return true;
+        }
 
 	// update Megasena database
 	function update(){
 		$megafile = $this->tmpdir.'/mega.zip';
-		//kill old file
-		//$this->kill($megafile);
+		
+                //kill old file
+		$this->kill($megafile);
 
 		//download
-		//file_put_contents($megafile, file_get_contents($this->datalink));
-		//Error case
-		if(!file_exists($megafile)) {
-			$this->error = 'Unable to download the file.';
-			return false;
-		} 
+                if(!$this->download($this->datalink, $megafile)) return false;
 
 		//Extract datafile
 		$zip = new ZipArchive; 
@@ -142,59 +149,77 @@ class Mega {
 	function createSqlite(){
 		$pdo = $this->db();
 	}
+        
+        //Get result
+        function result($id = null){
+            if($id == null) $id = $this->lastResult();                
+            foreach($this->db()->query('SELECT * FROM resultados WHERE ID = '.$id.' LIMIT 1') as $row){return $row;}
+        }
+        
+        //Get last result
+        function lastResult(){
+            foreach($this->db()->query('SELECT * FROM  resultados ORDER BY ID DESC LIMIT 1') as $row){return $row['ID'];}
+        }
 
 	//Test get database results
 	function getCont(){
 		$pdo = $this->db();
-
-		foreach($pdo->query('SELECT * 
-								FROM  resultados 
-								ORDER BY ID DESC 
-								LIMIT 1') as $row){$total = $row['ID'];}
-
+                
+                //total results
+                $total = $this->lastResult();
+                
+                //get results
 		$all = $pdo->query('SELECT * FROM resultados');
 		$all = $all->fetchAll();
-		for($i = 1; $i <= 60; $i++){$a[$i] = 0;}
+		
+                //create array
+                for($i = 1; $i <= 60; $i++){$a[$i] = 0;}
+                
 		foreach($all as $v){
 			$a[$v['D1']] += 1;
-			//echo '<pre>'.print_r($v, true).'</pre>';
+                        $a[$v['D2']] += 1;
+                        $a[$v['D3']] += 1;
+                        $a[$v['D4']] += 1;
+                        $a[$v['D5']] += 1;
+                        $a[$v['D6']] += 1;
 		}
-		exit();
-
-
-		$a = array();
-		for($i = 1; $i <= 60; $i ++){
-			$sth = $pdo->prepare('SELECT COUNT(*)SIZE 
-									FROM resultados 
-									WHERE D1='.$i.' 
-									   OR D2='.$i.'
-									   OR D3='.$i.'
-									   OR D4='.$i.'
-									   OR D5='.$i.'
-									   OR D6='.$i);
-			$sth->execute();
-			$result = $sth->fetch();
-			$a[$i] = $result['SIZE'];
-		}
-		arsort($a);
+                arsort($a);
 
 		$o = '
 		<style>
-		table {border:1px solid #DDD; padding:0 3px;}
-		table tr th {padding:6px 10px; color:#000; border-bottom:1px solid #000}
+		table {float:left; border:1px solid #DDD; padding:0; margin:-10px 1px 30px 1px; background:#FFF}
+		table tr th {padding:6px 10px; color:#000; border-bottom:1px solid #000; font-size:11px; font-weight:normal}
 		table tr td {padding:6px 10px; color:#BBD; border: none; border-bottom:1px solid #DDD}
 		table tr:hover td { background:#DDD; color:#000;}
-		</style>
-		<h2>Frequência de Sorteio</h2>
-		<p>Concursos pesquisados: '.$total.' </p> 
-		<table cellspacing="0">
-		<tr><th>Posição</th><th>Número</th><th>Frequência</th></tr>';
-		$ct = 0;
+                p {clear:both; margin:20px 0; font-size:10px; padding:0 0 30px 0}
+                </style>		
+                <h3>Último concurso: '.$total.'<br>Dezenas: '.$v['D1'].'-'.$v['D2'].'-'.$v['D3'].'-'.$v['D4'].'-'.$v['D5'].'-'.$v['D6'].'<br>Ganhador(es): '.$v['ACERTO'].'</h3>
+                <h3>Sugestão: ';
+                
+                $ct = 6;
+                foreach($a as $k=>$v){
+                    $o .= $k;
+                    $ct --;
+                    if($ct == 0) break;
+                    $o .= '-';
+                }
+
+                $o .= '</h3>
+                <h2>Frequência de Sorteio</h2>
+		<p>Concursos pesquisados: '.$total.' </p><table cellspacing="0">
+                <tr><th>ranking</th><th>dezena</th><th>sorteios</th></tr>';
+                
+                $ct = 0; //position
+                $coll = -1; //collun
 		foreach($a as $k=>$v){
 			$ct ++;
+                        $coll ++;
+                        if($coll == 12) {
+                            $coll = 0;
+                            $o .= '</table><table cellspacing="0"><tr><th>ranking</th><th>dezena</th><th>sorteios</th></tr>';}
 			$o .= '<tr><td>'.$ct.'º</td><td>'.$k.'</td><td>'.$v.'</td></tr>';
-		}
-		return $o . '</table>';
+		}		
+		return $o . '</table><p>'.date('Y/d/m H:i:s').'</p>';
 	}
 
 
