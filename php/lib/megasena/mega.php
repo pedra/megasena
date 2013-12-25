@@ -7,7 +7,6 @@ class Mega {
 	private $datalink = 'http://www1.caixa.gov.br/loterias/_arquivos/loterias/D_megase.zip';
 	private $tmpdir = __DIR__;
 	private $error = false;
-        private $result = 'nada';
 
 	//Database parameters
 	private $conn = null;
