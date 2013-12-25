@@ -1,18 +1,13 @@
 <?php 
-include 'php/lib/neos/megasena/connect.php';
-
-$pdo = Connect::hdl();
-$sth = $pdo->prepare('SELECT D1, D2, D3, D4, D5, D6 FROM megasena.resultados');
-$sth->execute();
-$db = $sth->fetchAll();
+$db = $mega->getAll('D1, D2, D3, D4, D5, D6');
 
 $concursos = count($db);
 
 //Configuração
 $concInicial = 1;
 $concFinal = $concursos;
-$numInicial = 17;
-$numFinal = 17;
+$numInicial = 1;
+$numFinal = 60;
 
 ?>
 <div class="grafico">
