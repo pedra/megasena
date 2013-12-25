@@ -10,7 +10,7 @@ prbr@ymail.com | http://zumbi.tk/megasena
 Como Funciona
 ==
 
-A classe Mega [/php/lib/megasena/mega.php] tem as seguintes funções:
+A classe Mega [*/php/lib/megasena/mega.php*] tem as seguintes funções:
 
 * **CreateDb** - Cria o banco de dados Mysql (futuramente em Sqlite e Oracle)
 * **Update** - Pega os dados do site da Caixa Econômica, descompacta, pega o conteúdo (html) e insere no banco de dados
@@ -35,4 +35,42 @@ Exemplo:
     //display errors (if)
     echo $mega->getError();
   
+DataBase
+==
 
+Crie um usuário, senha e banco de dados em seu servidor Mysql (*use phpmyadmin* :).
+
+Rode o seguinte em seu 'index.php':
+
+    $mega = new Mega;
+    
+    //setups - prefira os defaults
+    $mega->setDbType('mysql');              //default: sqlite
+    $mega->setHost('host');                 //default: localhost
+    $mega->setUser('usuario');              //default: megasena
+    $mega->setPassWord('password');         //default: mega!1@2#3
+    $mega->setDataBase('database_name');    //default: megasena
+    
+    //Run create DB
+    $mega->createDb();
+    
+    exit($mega->getError());
+
+UpDate
+==
+
+Para carregar (*ou atualizar*) os dados dos sorteios da MegaSena diretamente do site da Caixa, rode:
+
+    $mega = new Mega;
+    
+    //setup
+    $mega->setTmpDir(__DIR__.'/php/megasena/temp/');
+    
+    //Update
+    $mega->update();
+    
+    exit($mega->getError());
+
+Verifique os parâmetros diretamente no arquivo de código fonte da classe Mega [*php/lib/megasena/mega.php*].
+    
+    
