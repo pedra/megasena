@@ -10,13 +10,13 @@ $numInicial = 1;
 $numFinal = 60;
 
 //tamanho dos quadrados
-$retW = 15;
+$retW = 14;
 ?>
 <div class="grafico">
     <h2>Mapeamento de Resultados</h2>
     <p>As dezenas em vermelho são de concursos com ACERTO</p>
     <svg height="<?php echo 40 + ($concursos * $retW); ?>" id="calendar-graph">
-        <g transform="translate(40, 20)">
+        <g transform="translate(50, 20)">
 
         <?php
         //Texto Horizontal com os números
