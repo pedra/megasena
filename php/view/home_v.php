@@ -1,10 +1,5 @@
 <?php 
-include 'php/lib/neos/megasena/connect.php';
-
-$pdo = Connect::hdl();
-$sth = $pdo->prepare('SELECT D1, D2, D3, D4, D5, D6 FROM megasena.resultados');
-$sth->execute();
-$db = $sth->fetchAll();
+$db = $mega->getAll('D1, D2, D3, D4, D5, D6, ACERTO');
 
 $concursos = count($db);
 
@@ -15,11 +10,12 @@ $numInicial = 1;
 $numFinal = 60;
 
 //tamanho dos quadrados
-$retW = 13;
+$retW = 15;
 
 ?>
 <div class="grafico">
-	<h2>Concursos: <?=$concursos?> </h2>
+	<h2>Mapeamento de Resultados</h2>
+        <p>As dezenas em vermelho são de concursos com ACERTO</p>
 	<svg height="<?php echo 40 + ($concursos * $retW);?>" id="calendar-graph">
 		<g transform="translate(40, 20)">
 
@@ -52,8 +48,9 @@ $retW = 13;
 
 				$y = 0;
 				for($i = $concInicial; $i <= $concFinal; $i ++){
+                                        $cor = ($db[($i - 1)]['ACERTO'] >= 1) ? 'F00':'BBB';
 					echo '<rect class="day" width="'.($retW - 2).'" height="'.($retW - 2).'" y="'.$y.'" style="fill: #'.
-					((in_array($n, $db[($i - 1)])) ? '678' : 'DDD').';"></rect>';
+					((in_array($n, $db[($i - 1)])) ? $cor : 'DDD').';"></rect>';
 					$y += $retW;
 				}
 
