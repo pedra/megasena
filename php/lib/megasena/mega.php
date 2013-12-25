@@ -161,7 +161,7 @@ class Mega {
         }
 
 	//Test get database results
-	function getCont(){
+	function test(){
 		$pdo = $this->db();
                 
                 //total results
