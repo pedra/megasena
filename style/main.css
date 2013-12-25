@@ -1,6 +1,4 @@
 /* main.css */
-
-
 body { margin:0 auto; background: linear-gradient(to bottom , #579, #FFF) repeat-x scroll 0 0 #579}
 a{transition-duration: 0.8s}
 input[type=text], select { width:98%; margin-bottom:20px; font-size:14px; color:#900}
