@@ -73,4 +73,11 @@ Para carregar (*ou atualizar*) os dados dos sorteios da MegaSena diretamente do 
 
 Verifique os parâmetros diretamente no arquivo de código fonte da classe Mega [*php/lib/megasena/mega.php*].
     
-    
+
+Importante
+=
+
+* Esta classe foi projetada para funcionar somente em servidores Linux;
+* A pasta '/php/view' e '/php/lib/megasena/temp' deve ter permissão de escrita para o usuário do PHP (ou 0777);
+* A library Zlib precisa estar habilitada;
+* O PDO precisa estar habilitado para o Mysql;
