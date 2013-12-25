@@ -14,5 +14,5 @@ $mega->setDbType('mysql');
 if($mega->getError() != null) exit('<p style="color:#F00">Error: '.$mega->getError().'</p>');
 
 include 'php/view/head.html';
-echo $mega->getCont();
+echo $mega->test();
 include 'php/view/footer.html';
