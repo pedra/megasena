@@ -77,7 +77,7 @@ Verifique os parâmetros diretamente no arquivo de código fonte da classe Mega 
 Importante
 =
 
-* Esta classe foi projetada para funcionar somente em servidores Linux;
-* A pasta '/php/view' e '/php/lib/megasena/temp' deve ter permissão de escrita para o usuário do PHP (ou 0777);
-* A library Zlib precisa estar habilitada;
-* O PDO precisa estar habilitado para o Mysql;
+* Esta classe foi projetada para funcionar somente em servidores **Linux**;
+* A pasta *'/php/view'* e *'/php/lib/megasena/temp'* devem ter permissão de escrita para o usuário do PHP (ou 0777);
+* A library **Zlib** precisa estar habilitada;
+* O **PDO** precisa estar habilitado para o **Mysql**;
