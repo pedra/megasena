@@ -3,6 +3,6 @@
 function offMsg() {
     document.getElementsByClassName('msg').item('p').style.display = 'none';
 }
-var t = setTimeout("offMsg()", 14000);
+//var t = setTimeout("offMsg()", 14000);
 
-$(document).tooltip();
+//$(document).tooltip();
