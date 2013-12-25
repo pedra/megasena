@@ -121,7 +121,7 @@ class Mega {
 		return $this->conn;
 	}
 
-	//Creating DataBase
+	//Creating DataBaseResult
 	function createDb(){
 
 		$pdo = $this->db();
@@ -153,6 +153,14 @@ class Mega {
         function result($id = null){
             if($id == null) $id = $this->lastResult();                
             foreach($this->db()->query('SELECT * FROM resultados WHERE ID = '.$id.' LIMIT 1') as $row){return $row;}
+        }
+        
+        //Get ALL results
+        function getAll($reg = null){
+            if($reg == null) $reg = '*';
+            
+            $all = $this->db()->query('SELECT '.$reg.' FROM resultados');
+            return $all->fetchAll();
         }
         
         //Get last result
